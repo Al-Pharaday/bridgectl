@@ -49,6 +49,10 @@ on() {
 off() {
     if [ -e $BRIDGECTLDIR/bridgectl ]; then
         mv $BRIDGECTLDIR/bridgectl $BRIDGECTLDIR/.bridgectl
+    fi
+
+    if [ -e $BRIDGECTLDIR/.bridgectl ]; then
+        echo -e "\e[1;33mbridgectl is already disabled. cannot disable bridgectl\e[0m"
     else
         echo -e "\e[1;33mfile $BRIDGECTLDIR/bridgectl doesn't exist. cannot disable bridgectl\e[0m"
         exit 1
@@ -95,5 +99,6 @@ add)
     ;;
 *)
     echo "unexpected argument $1"
+    tip
     ;;
 esac
