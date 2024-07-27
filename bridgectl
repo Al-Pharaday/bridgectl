@@ -1,27 +1,30 @@
 #!/bin/bash
 
-BRIDGES_LIST="/usr/etc/torctl/bridges.txt"
-USE_BRIDGES=""
+declare -A BRIDGES=(
+            ["file"]="/usr/etc/torctl/bridges.txt"
+            ["list"]=""
+        )
 
 conf_bridges() {
-    if [ ! -e $BRIDGES_LIST ]; then
-        warn "$BRIDGES_LIST file not found"
-        msg "... creating $BRIDGES_LIST"
-        touch $BRIDGES_LIST
+    if [ ! -e ${BRIDGES["file"]} ]; then
+        warn "${BRIDGES["file"]} file not found"
+        info "creating ${BRIDGES["file"]}"
+        touch ${BRIDGES["file"]}
+        msg "${BRIDGES["file"]} created"
     fi
 
     if [ ! -e "/usr/bin/obfs4proxy" ]; then
-        warn "Install obfs4proxy <pacman -S obfs4proxy> to use obfs4 as a pluggable transport."
+        warn "Install obfs4proxy <pacman -S obfs4proxy> to be able use obfs4 as a pluggable transport."
     fi    
 
-    if [ -s $BRIDGES_LIST ]; then
-        USE_BRIDGES=$(cat $BRIDGES_LIST)
-        msg "... using provided bridge"
-        BRIDGES_FOR_TORRC=$(echo -e "#Bridges\nUseBridges 1\nBridge $USE_BRIDGES\nClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy")
+    if [ -s ${BRIDGES["file"]} ]; then
+        BRIDGES["list"]=$(cat ${BRIDGES["file"]})
+        info "using provided bridge"
+        USE_BRIDGES=$(echo -e "#Bridges\nUseBridges 1\nBridge ${BRIDGES["list"]}\nClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy")
         #return 0
     else
-        warn "$BRIDGES_LIST file is empty. For now no bridges will be used."
-        warn "Insert your bridges in $BRIDGES_LIST one per line."
+        warn "${BRIDGES["file"]} file is empty. For now no bridges will be used."
+        warn "Insert your bridges in ${BRIDGES["file"]} one per line."
         #return 1
     fi
 }
