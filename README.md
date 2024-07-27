@@ -43,6 +43,6 @@ inside `gen_torrc()` function defenition after the `EnforceDistinctSubnets 1` li
 ```bash
 [[ -f $BRIDGES ]] && conf_bridges || :
 ```
-inside `start()` function defenition right befote the call to `gen_torrc`.
+inside `start()` function defenition right before the call to `gen_torrc`.
 
 
