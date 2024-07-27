@@ -20,15 +20,30 @@ then (as `root`)
 
 After the above steps you should have `torctl` subdirectory in `/usr/etc/` with two files `bridgectl` and `bridges.txt`.
 
-Or alternatively, create a `torctl` folder in `/usr/etc/` and copy the `bridgectl` and `bridges.txt` files in there. 
+Or alternatively, manually create a `torctl` folder in `/usr/etc/` and copy the `bridgectl` and `bridges.txt` files there.
+4. `./handle.sh add` opens the `bridges.txt` file using Nano. Add your bridges lines there one per line and save.
 
 ## Usage
 
-- You should have `torctl` and `obfs4proxy` installed.
-- Edit the [`torctl`](https://github.com/BlackArch/torctl/blob/master/torctl) file to use this script.
+You should have `torctl` and `obfs4proxy` installed. `torctl` requires some modifications to use bridges automatically, and so:
+- Edit the [`torctl`](https://github.com/BlackArch/torctl/blob/master/torctl) file manually (it is located at `/usr/bin/torctl`) or using the provided scripts (see below).
 - Insert your bridges into the `bridges.txt` file (`/usr/etc/torctl/bridges.txt`) one per line, starting each line with `obfs4`.
 
-`handle.sh`
+#### using preinstalled scripts to edit the `torctl` file
+(This will work as long as the present `torctl` file remains unmodified as the `torctl_tweaker.sh` script uses the strings order in the present `torctl` file. The same effect can be achieved in a much easier way by simply moving an already modified `torctl` to its folder, but this repo sticks to a fancier approach.)
+
+- You should have `torctl` and `obfs4proxy` installed.
+- Run `sudo ./handle.sh install` to add the bridge mode for `torctl`.
+- Run `sudo ./handle.sh uninstall` to revert everything.
+Then just
+```
+torctl start
+```
+```
+torctl stop
+```
+
+`handle.sh` flags:
 ```bash
 install
 uninstall
@@ -37,7 +52,7 @@ disable
 add    - opens file, where you can add/remove bridges
 ```
 
-### Tweaked torctl
+### Modified torctl
 
 [`torctl`](https://github.com/Nespelem-3000/torctl/blob/bridge-hook/torctl)
 

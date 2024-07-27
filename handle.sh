@@ -21,11 +21,13 @@ inst() {
         chmod 755 -R $BRIDGECTLDIR
         chmod +x $BRIDGECTLDIR/bridgectl
         chmod +w $BRIDGECTLDIR/bridges.txt
+        /bin/bash torctl_tweaker.sh edit
         echo -e "\e[1;33mCheck if 'torctl' and 'obfs4proxy' have been installed, then run 'torctl start'. Otherwise install them first.\e[0m"
     fi
 }
 
 uninst() {
+    /bin/bash torctl_tweaker.sh restore
     if [ -d $BRIDGECTLDIR ]; then
         rm -r $BRIDGECTLDIR
     else

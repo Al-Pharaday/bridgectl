@@ -5,6 +5,14 @@ declare -A BRIDGES=(
             ["list"]=""
         )
 
+list() {
+sed -i '/^\s*$/d' ${BRIDGES["file"]}
+while IFS="" read -r p || [ -n "$p" ]
+do
+  printf '%s\n' "Bridge $p"
+done <${BRIDGES["file"]}
+}
+
 conf_bridges() {
     if [ ! -e ${BRIDGES["file"]} ]; then
         warn "${BRIDGES["file"]} file not found"
@@ -18,13 +26,11 @@ conf_bridges() {
     fi    
 
     if [ -s ${BRIDGES["file"]} ]; then
-        BRIDGES["list"]=$(cat ${BRIDGES["file"]})
+        #BRIDGES["list"]=$(cat ${BRIDGES["file"]})
         info "using provided bridge"
-        USE_BRIDGES=$(echo -e "#Bridges\nUseBridges 1\nBridge ${BRIDGES["list"]}\nClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy")
-        #return 0
+        USE_BRIDGES=$(echo -e "#Bridges\nUseBridges 1\n$(list)\nClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy")
     else
         warn "${BRIDGES["file"]} file is empty. For now no bridges will be used."
         warn "Insert your bridges in ${BRIDGES["file"]} one per line."
-        #return 1
     fi
 }
