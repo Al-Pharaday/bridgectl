@@ -24,26 +24,7 @@ Or alternatively, create a `torctl` folder in `/usr/etc/` and copy the `bridgect
 - Edit the [`torctl`](https://github.com/BlackArch/torctl/blob/master/torctl) file to use this script.
 - Insert your bridges into the `bridges.txt` file (`/usr/etc/torctl/bridges.txt`) one per line, starting each line with `obfs4`.
 
-### Tweaking torctl
-`/usr/bin/torctl`
-Given the current version, add:
+### Tweaked torctl
 
-1. 
-```bash
-[[ -f "/usr/etc/torctl/bridgectl" ]] && BRIDGES="/usr/etc/torctl/bridgectl" && source $BRIDGES
-```
-between `check_backup_dir()` and `start_service()` function defenitions.
-
-2. 
-```bash
-$BRIDGES_FOR_TORRC
-```
-inside `gen_torrc()` function defenition after the `EnforceDistinctSubnets 1` line.
-
-3. 
-```bash
-[[ -f $BRIDGES ]] && conf_bridges || :
-```
-inside `start()` function defenition right before the call to `gen_torrc`.
-
+[`torctl`](https://github.com/Nespelem-3000/torctl/blob/bridge-hook/torctl)
 
