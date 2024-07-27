@@ -1,5 +1,15 @@
 #!/bin/bash
 
+################################################################################
+#                                                                              #
+# A hook into torctl to enable the use of bridges.                             #
+#                                                                              #
+# AUTHORS                                                                      #
+# https://github.com/Al-Pharaday                                               #
+# https://github.com/Nespelem-3000                                             #
+#                                                                              #
+################################################################################
+
 declare -A BRIDGES=(
             ["file"]="/usr/etc/torctl/bridges.txt"
             ["list"]=""
