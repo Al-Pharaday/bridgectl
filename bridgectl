@@ -1,0 +1,27 @@
+#!/bin/bash
+
+BRIDGES_LIST="/usr/etc/torctl/bridges.txt"
+USE_BRIDGES=""
+
+conf_bridges() {
+    if [ ! -e $BRIDGES_LIST ]; then
+        warn "$BRIDGES_LIST file not found"
+        msg "... creating $BRIDGES_LIST"
+        touch $BRIDGES_LIST
+    fi
+
+    if [ ! -e "/usr/bin/obfs4proxy" ]; then
+        warn "Install obfs4proxy <pacman -S obfs4proxy> to use obfs4 as a pluggable transport."
+    fi    
+
+    if [ -s $BRIDGES_LIST ]; then
+        USE_BRIDGES=$(cat $BRIDGES_LIST)
+        msg "... using provided bridge"
+        BRIDGES_FOR_TORRC=$(echo -e "#Bridges\nUseBridges 1\nBridge $USE_BRIDGES\nClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy")
+        #return 0
+    else
+        warn "$BRIDGES_LIST file is empty. For now no bridges will be used."
+        warn "Insert your bridges in $BRIDGES_LIST one per line."
+        #return 1
+    fi
+}
