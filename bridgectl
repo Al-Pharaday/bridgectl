@@ -32,13 +32,13 @@ conf_bridges() {
     fi
 
     if [ ! -e "/usr/bin/obfs4proxy" ]; then
-        warn "Install obfs4proxy <pacman -S obfs4proxy> to be able use obfs4 as a pluggable transport."
+        warn "Install obfs4proxy <pacman -S obfs4proxy> to be able to use obfs4 as a pluggable transport, and/or webtunnel <https://gitlab.torproject.org/tpo/anti-censorship/pluggable-transports/webtunnel> to be able to use webtunnel as a pluggable transport."
     fi    
 
     if [ -s ${BRIDGES["file"]} ]; then
         #BRIDGES["list"]=$(cat ${BRIDGES["file"]})
         info "using provided bridge"
-        USE_BRIDGES=$(echo -e "#Bridges\nUseBridges 1\n$(list)\nClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy")
+        USE_BRIDGES=$(echo -e "#Bridges\nUseBridges 1\n$(list)\nClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy\nClientTransportPlugin webtunnel exec /usr/bin/webtunnel")
     else
         warn "${BRIDGES["file"]} file is empty. For now no bridges will be used."
         warn "Insert your bridges in ${BRIDGES["file"]} one per line."
